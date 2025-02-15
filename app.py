@@ -11,20 +11,30 @@ openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
 @app.route("/", methods=["GET", "POST"])
 def index():
     result = None
+    image_url = None  # To store the image URL
     if request.method == "POST":
         prompt = request.form["prompt"]
         try:
-            response = openai.chat.completions.create(
-                model="gpt-4o-mini",  
-                messages=[{"role": "developer", "content": "You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry."}, 
-                          {"role": "user", "content": prompt}],
-                          temperature=1.2,
-                          max_completion_tokens=50
+            # Generate text-based dream interpretation (optional)
+            text_response = openai.Completion.create(
+                model="gpt-4",  # Use GPT-4 or GPT-3.5-turbo
+                prompt=f"You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry. \n\nUser: {prompt}",
+                temperature=1.2,
+                max_tokens=150
             )
-            result = response.choices[0].message.content
+            result = text_response.choices[0].text.strip()
+
+            # Generate an image based on the text response using DALL·E
+            image_response = openai.Image.create(
+                prompt=result,  # Use the interpretation text as the image prompt
+                n=1,  # Number of images to generate
+                size="1024x1024"  # Image size
+            )
+            image_url = image_response['data'][0]['url']  # Get the URL of the generated image
         except Exception as e:
             result = f"Error: {str(e)}"
-    return render_template("index.html", result=result)
+    
+    return render_template("index.html", result=result, image_url=image_url)
 
 if __name__ == "__main__":
     app.run(debug=True)  # Run locally for testing
