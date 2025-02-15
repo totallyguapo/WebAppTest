@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load the API key
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -16,8 +16,8 @@ def index():
         prompt = request.form["prompt"]
         
         try:
-            # Generate Jungian-based interpretation using GPT-3
-            response = openai.ChatCompletion.create(  # Correct method call for the latest OpenAI API
+            # Generate Jungian-based interpretation using GPT-3.5 model
+            response = openai.chat.completions.create(  # Correct method call
                 model="gpt-3.5-turbo",  # Use GPT model for generating interpretations
                 messages=[
                     {"role": "system", "content": "You are a psychoanalyst trained in Jungian psychology. Your task is to interpret dreams, considering archetypes, symbols, and the unconscious mind. Use Carl Jung's theories to offer insights into the dream."},
@@ -27,8 +27,8 @@ def index():
                 max_tokens=150
             )
 
-            # Correctly access the response content
-            result = response['choices'][0]['message']['content'].strip()  # Correct way to access
+            # Correctly access the response object and extract the content of the message
+            result = response['choices'][0]['message']['content'].strip()  # Correct access
 
             # Now, use the interpretation to generate an image with DALL·E
             image_response = openai.Image.create(
