@@ -26,9 +26,7 @@ def index():
             # Generate an image using the DALL·E endpoint.
             image_response = openai.images.generate(
                     prompt=f"A symbolic and surreal visual representation of a dream: {prompt}",
-                model = "dall-e-3",    
-                n=1,
-                    size="512x512"
+                model = "dall-e-3"  
                 )
             image_url = image_response['data'][0]['url']
         except Exception as e:
