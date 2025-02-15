@@ -45,6 +45,10 @@
             <h3 class="mt-4">Response:</h3>
             <div class="alert alert-secondary">{{ result }}</div>
         {% endif %}
+            {% if image_url %}
+    <h2>Visual Representation</h2>
+    <img src="{{ image_url }}" alt="Dream Visual">
+    {% endif %}
     </div>
 </body>
 </html>
