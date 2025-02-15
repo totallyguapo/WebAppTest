@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env
 
 app = Flask(__name__)
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
+openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load the API key
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -14,26 +14,32 @@ def index():
     image_url = None  # To store the image URL
     if request.method == "POST":
         prompt = request.form["prompt"]
+        
         try:
-            # Use ChatCompletion for text-based generation
-            response = openai.ChatCompletion.create(
-                model="gpt-4",  # Use GPT-4 or GPT-3.5-turbo
+            # Generate Jungian-based interpretation using GPT-3
+            interpretation_response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",  # Use GPT model for generating interpretations
                 messages=[
-                    {"role": "system", "content": "You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry."},
+                    {"role": "system", "content": "You are a psychoanalyst trained in Jungian psychology. Your task is to interpret dreams, considering archetypes, symbols, and the unconscious mind. Use Carl Jung's theories to offer insights into the dream."},
                     {"role": "user", "content": prompt}
                 ],
-                temperature=1.2,
+                temperature=0.7,
                 max_tokens=150
             )
-            result = response['choices'][0]['message']['content'].strip()
+            
+            # Extract the interpretation from the response
+            result = interpretation_response['choices'][0]['message']['content'].strip()
 
-            # Generate an image based on the text response using DALL·E
+            # Now, use the interpretation to generate an image with DALL·E
             image_response = openai.Image.create(
-                prompt=result,  # Use the interpretation text as the image prompt
-                n=1,  # Number of images to generate
+                prompt=result,  # Use the Jungian interpretation as the prompt for the image
+                n=1,  # Generate one image
                 size="1024x1024"  # Image size
             )
-            image_url = image_response['data'][0]['url']  # Get the URL of the generated image
+            
+            # Get the URL of the generated image
+            image_url = image_response['data'][0]['url']
+
         except Exception as e:
             result = f"Error: {str(e)}"
     
