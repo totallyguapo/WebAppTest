@@ -32,7 +32,7 @@ def index():
             result = response.choices[0].message.content
             # Generate an image using the DALL·E endpoint.
             image_response = openai.images.generate(
-                    prompt=f"A symbolic and surreal visual representation of a dream: {prompt}",
+                    prompt=f"A symbolic, psychedelic and surreal visual representation of a dream: {prompt}",
                 model = "dall-e-2"
                 )
             image_url = image_response.data[0].url
