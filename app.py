@@ -18,7 +18,7 @@ def index():
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",  
                 #developer sets how bot should behave. at head of the chain of command for the bot
-                messages=[{"role": "developer", "content": '''Taking a user prompt as a dream, output only your interpretation of the dream. Be very concise and surreal.
+                messages=[{"role": "developer", "content": '''Taking a user prompt as a dream, output only your interpretation of the dream. Be very concise, do not use more than 40 words and surreal.
                 Remember that a dream is a coherent message from the unconscious cloaked in symbolism. 
                 When you interpret the dream and arrive at an interpretation that “clicks” or makes you say “a-ha,” then you’re on the right path. A couple of caveats:
                 the unconscious will not send a message that you already know or are conscious of. Thus the dream’s message should be a surprise.
