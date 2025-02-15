@@ -28,7 +28,7 @@ def index():
                     prompt=f"A symbolic and surreal visual representation of a dream: {prompt}",
                 model = "dall-e-3"  
                 )
-            image_url = image_response['data'][0]['url']
+            image_url = image_response.data[0].url
         except Exception as e:
             result = f"Error: {str(e)}"
     return render_template("index.html", result=result, image_url=image_url)
