@@ -11,20 +11,28 @@ openai.api_key = os.getenv("OPENAI_API_KEY")  # Securely load API key
 @app.route("/", methods=["GET", "POST"])
 def index():
     result = None
+    image_url = None
     if request.method == "POST":
         prompt = request.form["prompt"]
         try:
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",  
-                messages=[{"role": "developer", "content": "You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry."}, 
+                messages=[{"role": "developer", "content": "You are a jungian analyst. Interpret the following fream using Jung's psychological theories. Focus on archetypes, the collective unconscious, and individuation. Provide a symbolic analysis that reveals insights into the dreams hidden meanings."}, 
                           {"role": "user", "content": prompt}],
                           temperature=1.2,
                           max_completion_tokens=50
             )
             result = response.choices[0].message.content
+            # Generate an image using the DALL·E endpoint.
+                image_response = openai.Image.create(
+                    prompt=f"A symbolic and surreal visual representation of a dream: {dream}",
+                    n=1,
+                    size="512x512"
+                )
+                image_url = image_response['data'][0]['url']
         except Exception as e:
             result = f"Error: {str(e)}"
-    return render_template("index.html", result=result)
+    return render_template("index.html", result=result, image_url=image_url)
 
 if __name__ == "__main__":
     app.run(debug=True)  # Run locally for testing
