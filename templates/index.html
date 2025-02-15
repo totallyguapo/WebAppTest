@@ -41,19 +41,15 @@
                 </div>
             </form>
 
-            {% if result %}
-                <div class="mt-4">
-                    <h4>Response:</h4>
-                    <div class="alert alert-secondary">{{ result }}</div>
-                </div>
-            {% endif %}
-        </div>
-    </div>
-
-    <script>
-        function showLoading() {
-            document.querySelector(".loading").style.display = "block";
-        }
-    </script>
+           {% if interpretation %}
+    <h2>Interpretation</h2>
+    <p>{{ interpretation }}</p>
+    {% endif %}
+    
+    {% if image_url %}
+    <h2>Visual Representation</h2>
+    <img src="{{ image_url }}" alt="Dream Visual">
+    {% endif %}
+  </div>
 </body>
 </html>
