@@ -17,7 +17,14 @@ def index():
         try:
             response = openai.chat.completions.create(
                 model="gpt-4o-mini",  
-                messages=[{"role": "developer", "content": "You are a jungian analyst. Interpret the following fream using Jung's psychological theories. Focus on archetypes, the collective unconscious, and individuation. Provide a symbolic analysis that reveals insights into the dreams hidden meanings."}, 
+                #developer sets how bot should behave. at head of the chain of command for the bot
+                messages=[{"role": "developer", "content": '''Taking a user prompt as a dream, interpret the dream. 
+                Remember that a dream is a coherent message from the unconscious cloaked in symbolism. 
+                When you interpret the dream and arrive at an interpretation that “clicks” or makes you say “a-ha,” then you’re on the right path. A couple of caveats:
+                the unconscious will not send a message that you already know or are conscious of. Thus the dream’s message should be a surprise.
+                If you arrive at a dream interpretation that is self-congratulatory and self-inflating, then that interpretation is probably incorrect.
+                If you arrive at an interpretation that blames others, then that interpretation is also incorrect. Dreams are about you and not others. 
+                Remember that all the characters in a dream represent aspects of the dreamer, even if they look like somebody familiar.''' }, 
                           {"role": "user", "content": prompt}],
                           temperature=1.2,
                           max_completion_tokens=50
@@ -26,7 +33,8 @@ def index():
             # Generate an image using the DALL·E endpoint.
             image_response = openai.images.generate(
                     prompt=f"A symbolic and surreal visual representation of a dream: {prompt}",
-                model = "dall-e-3"  
+                model = "dall-e-3",
+                temperature=0.7
                 )
             image_url = image_response.data[0].url
         except Exception as e:
