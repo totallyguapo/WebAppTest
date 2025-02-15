@@ -29,7 +29,7 @@ def index():
                     n=1,
                     size="512x512"
                 )
-                image_url = image_response['data'][0]['url']
+            image_url = image_response['data'][0]['url']
         except Exception as e:
             result = f"Error: {str(e)}"
     return render_template("index.html", result=result, image_url=image_url)
