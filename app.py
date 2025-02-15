@@ -17,7 +17,7 @@ def index():
         
         try:
             # Generate Jungian-based interpretation using GPT-3
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",  # Use GPT model for generating interpretations
                 messages=[
                     {"role": "system", "content": "You are a psychoanalyst trained in Jungian psychology. Your task is to interpret dreams, considering archetypes, symbols, and the unconscious mind. Use Carl Jung's theories to offer insights into the dream."},
