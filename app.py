@@ -17,7 +17,7 @@ def index():
         
         try:
             # Generate Jungian-based interpretation using GPT-3
-               response = openai.chat.completions.create(
+            response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",  # Use GPT model for generating interpretations
                 messages=[
                     {"role": "system", "content": "You are a psychoanalyst trained in Jungian psychology. Your task is to interpret dreams, considering archetypes, symbols, and the unconscious mind. Use Carl Jung's theories to offer insights into the dream."},
@@ -26,9 +26,9 @@ def index():
                 temperature=0.7,
                 max_tokens=150
             )
-            
-            # Extract the interpretation from the response
-                result = interpretation_response['choices'][0]['message']['content'].strip()
+
+            # Correctly access the response
+            result = response['choices'][0]['message']['content'].strip()  # Fix indentation here
 
             # Now, use the interpretation to generate an image with DALL·E
             image_response = openai.Image.create(
