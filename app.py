@@ -15,14 +15,17 @@ def index():
     if request.method == "POST":
         prompt = request.form["prompt"]
         try:
-            # Generate text-based dream interpretation (optional)
-            text_response = openai.Completion.create(
+            # Use ChatCompletion for text-based generation
+            response = openai.ChatCompletion.create(
                 model="gpt-4",  # Use GPT-4 or GPT-3.5-turbo
-                prompt=f"You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry. \n\nUser: {prompt}",
+                messages=[
+                    {"role": "system", "content": "You are a psychedelic AI that speaks in Oulipian constraints. Your responses are short, surreal, and witty. Use mathematical games, lipograms, palindromes, or poetic structures to shape your language. Avoid predictable phrasing. Let logic slip through the cracks like liquid geometry."},
+                    {"role": "user", "content": prompt}
+                ],
                 temperature=1.2,
                 max_tokens=150
             )
-            result = text_response.choices[0].text.strip()
+            result = response['choices'][0]['message']['content'].strip()
 
             # Generate an image based on the text response using DALL·E
             image_response = openai.Image.create(
