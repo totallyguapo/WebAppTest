@@ -28,7 +28,7 @@ def index():
             )
             
             # Extract the interpretation from the response
-            result = interpretation_response['choices'][0]['message']['content'].strip()
+                result = interpretation_response['choices'][0]['message']['content'].strip()
 
             # Now, use the interpretation to generate an image with DALL·E
             image_response = openai.Image.create(
