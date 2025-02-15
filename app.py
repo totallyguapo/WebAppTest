@@ -25,7 +25,7 @@ def index():
             result = response.choices[0].message.content
             # Generate an image using the DALL·E endpoint.
             image_response = openai.Image.create(
-                    prompt=f"A symbolic and surreal visual representation of a dream: {dream}",
+                    prompt=f"A symbolic and surreal visual representation of a dream: {prompt}",
                     n=1,
                     size="512x512"
                 )
